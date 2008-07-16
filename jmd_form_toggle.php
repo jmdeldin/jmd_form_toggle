@@ -171,7 +171,14 @@ function jmd_form_toggle(id)
     var el = document.getElementById(id);
     if (el)
     {
-        el.style.display = ((el.style.display != 'none') ? 'none' : '');
+        if (document.defaultView.getComputedStyle(el, '').getPropertyValue('display') == 'none')
+        {
+            el.style.display = 'table';
+        }
+        else
+        {
+            el.style.display = 'none';
+        }
     }
 };
 </script>
