@@ -56,7 +56,8 @@ function jmd_form_toggle($buffer)
 <h3 onclick="jmd_form_toggle('type_{$type}');">{$type}</h3>
 <table id="type_{$type}">
 EOD;
-        for ($i = 0; $i < count($forms[$type]); $i++)
+        $count = count($forms[$type]);
+        for ($i = 0; $i < $count; $i++)
         {
             $out .= '<tr>';
             $formName = $forms[$type][$i];
