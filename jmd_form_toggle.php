@@ -54,7 +54,7 @@ function jmd_form_toggle($buffer)
     foreach ($types as $type)
     {
         $out .= <<<EOD
-<h3 onclick="jmd_form_toggle('type_{$type}');">{$type}</h3>
+<h3 class="plain" onclick="jmd_form_toggle('type_{$type}');">{$type}</h3>
 <table id="type_{$type}">
 EOD;
         $count = count($forms[$type]);
