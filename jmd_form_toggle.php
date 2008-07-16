@@ -1,7 +1,7 @@
 <?php
 $plugin = array(
     'description' => 'Toggleable admin-forms.',
-    'version' => '0.1',
+    'version' => '0.2',
     'type' => 1,
 );
 if (!defined('txpinterface')) include '../zem_tpl.php';
@@ -41,6 +41,7 @@ function jmd_form_toggle($buffer)
     {
         $DB = new DB();
     }
+    $curForm = (gps('name') ? gps('name') : 'default');
     $out = sLink('form', 'form_create', gTxt('create_new_form'), 'action');
     $rs = safe_rows('name, type', 'txp_form',
         'name !="" order by type, name asc');
@@ -59,24 +60,31 @@ EOD;
         $count = count($forms[$type]);
         for ($i = 0; $i < $count; $i++)
         {
-            $out .= '<tr>';
             $formName = $forms[$type][$i];
-            if ($curname == $formName)
+            $formLink = eLink('form', 'form_edit', 'name', $formName, $formName);
+            $checkbox = '<input type="checkbox" name="selected_forms[]"
+                value="' . $formName . '"/>';
+            $class = '';
+            if (in_array($formName, $essential_forms))
             {
-                $out .= '<td colspan="2">' . $formName;
+                $checkbox = '';
+                $class .= ' single';
             }
-            else
+            if ($curForm === $formName)
             {
-                $out .= '<td> ' . eLink('form', 'form_edit', 'name',
-                    $formName, $formName);
+                $class .= ' current';
+                $formLink = tag($formName, 'strong');
             }
-            $out .= '</td>';
-            if (!in_array($formName, $essential_forms))
-            {
-                $out .= '<td class="jmd_form_toggle_checkbox"><input type="checkbox" name="selected_forms[]"
-                    value="' . $formName . '"/></td>';
-            }
-            $out .= '</tr>';
+            $out .= <<<EOD
+<tr class="{$class}">
+    <td>
+        {$formLink}
+    </td>
+    <td class="checkbox">
+        {$checkbox}
+    </td>
+</tr>
+EOD;
         }
         $out .= '</table>';
     }
@@ -133,10 +141,20 @@ function jmd_form_toggle(id)
     border-bottom: 1px solid #ddd;
     vertical-align: middle;
 }
-.jmd_form_toggle_checkbox
-{
-    text-align: right;
-}
+    #jmd_form_toggle .single td
+    {
+        padding: 0.3em 0;
+    }
+    #jmd_form_toggle .checkbox
+    {
+        text-align: right;
+    }
+#jmd_form_toggle tr
+{}
+    #jmd_form_toggle .current
+    {
+        background: #ffffcc
+    }
 </style>
 EOD;
     $find = '</head>';
