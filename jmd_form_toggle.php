@@ -33,7 +33,6 @@ if (txpinterface === 'admin')
  * Adds headers for each form type.
  *
  * @param string $buffer
- * @todo clean up
  */
 function jmd_form_toggle($buffer)
 {
@@ -42,7 +41,7 @@ function jmd_form_toggle($buffer)
     {
         $DB = new DB();
     }
-    $out[] = sLink('form', 'form_create', gTxt('create_new_form'), 'action');
+    $out = sLink('form', 'form_create', gTxt('create_new_form'), 'action');
     $rs = safe_rows('name, type', 'txp_form',
         'name !="" order by type, name asc');
     foreach ($rs as $form)
@@ -53,39 +52,39 @@ function jmd_form_toggle($buffer)
     $types = array_keys($forms);
     foreach ($types as $type)
     {
-        $out[] = <<<EOD
+        $out .= <<<EOD
 <h3 onclick="jmd_form_toggle('type_{$type}');">{$type}</h3>
 <table id="type_{$type}">
 EOD;
         for ($i = 0; $i < count($forms[$type]); $i++)
         {
-            $out[] = '<tr>';
+            $out .= '<tr>';
             $formName = $forms[$type][$i];
             if ($curname == $formName)
             {
-                $out[] = '<td colspan="2">' . $formName;
+                $out .= '<td colspan="2">' . $formName;
             }
             else
             {
-                $out[] = '<td> ' . eLink('form', 'form_edit', 'name',
+                $out .= '<td> ' . eLink('form', 'form_edit', 'name',
                     $formName, $formName);
             }
-            $out[] = '</td>';
+            $out .= '</td>';
             if (!in_array($formName, $essential_forms))
             {
-                $out[] = '<td class="jmd_form_toggle_checkbox"><input type="checkbox" name="selected_forms[]"
+                $out .= '<td class="jmd_form_toggle_checkbox"><input type="checkbox" name="selected_forms[]"
                     value="' . $formName . '"/></td>';
             }
-            $out[] = '</tr>';
+            $out .= '</tr>';
         }
-        $out[] = '</table>';
+        $out .= '</table>';
     }
-    $out[] = '<input type="hidden" name="event" value="form" />';
+    $out .= '<input type="hidden" name="event" value="form" />';
 
     $pattern = '/<table cellpadding="0" cellspacing="0" border="0" id="list" align="center">(.*)<input type="hidden" name="event" value="form" \/>/s';
 
-    return preg_replace($pattern,
-        tag(join('', $out), 'div', ' id="jmd_form_toggle"'), $buffer);
+    return preg_replace($pattern, tag($out, 'div', ' id="jmd_form_toggle"'),
+        $buffer);
 }
 
 /**
