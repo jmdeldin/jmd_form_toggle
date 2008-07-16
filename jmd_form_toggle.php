@@ -27,6 +27,62 @@ if (txpinterface === 'admin')
         ob_start('jmd_form_toggle_head');
         ob_start('jmd_form_toggle');
     }
+    if (safe_field('css', 'txp_css', 'name="jmd_form_toggle"') === FALSE)
+    {
+        $css = <<<EOD
+/*Collapse certain types by default
+#type_article,
+#type_comment,
+#type_file,
+#type_link,
+#type_misc
+{
+    display: none;
+}
+*/
+
+/*"Create new form" link*/
+#jmd_form_toggle .action
+{
+    display: block;
+    margin: 0 0 0.5em;
+}
+
+#jmd_form_toggle h3
+{
+    cursor: pointer;
+    margin: 0;
+}
+
+#jmd_form_toggle table
+{
+    border-collapse: collapse;
+    margin: 0 0 1em;
+    width: 100%;
+}
+#jmd_form_toggle td
+{
+    border-bottom: 1px solid #ddd;
+    vertical-align: middle;
+}
+    #jmd_form_toggle .single td
+    {
+        padding: 0.3em 0;
+    }
+    #jmd_form_toggle .checkbox
+    {
+        text-align: right;
+    }
+#jmd_form_toggle tr
+{}
+    #jmd_form_toggle .current
+    {
+        background: #ffffcc;
+    }
+EOD;
+        $css = base64_encode($css);
+        safe_insert("txp_css", "name='jmd_form_toggle', css='$css'");
+    }
 }
 
 /**
@@ -119,43 +175,7 @@ function jmd_form_toggle(id)
     }
 };
 </script>
-<style type="text/css">
-#jmd_form_toggle .action
-{
-    display: block;
-    margin: 0 0 0.5em;
-}
-#jmd_form_toggle h3
-{
-    cursor: pointer;
-    margin: 0;
-}
-#jmd_form_toggle table
-{
-    border-collapse: collapse;
-    margin: 0 0 1em;
-    width: 100%;
-}
-#jmd_form_toggle td
-{
-    border-bottom: 1px solid #ddd;
-    vertical-align: middle;
-}
-    #jmd_form_toggle .single td
-    {
-        padding: 0.3em 0;
-    }
-    #jmd_form_toggle .checkbox
-    {
-        text-align: right;
-    }
-#jmd_form_toggle tr
-{}
-    #jmd_form_toggle .current
-    {
-        background: #ffffcc
-    }
-</style>
+<link href="./css.php?n=jmd_form_toggle" rel="stylesheet" type="text/css"/>
 EOD;
     $find = '</head>';
 
