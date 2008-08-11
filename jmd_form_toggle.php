@@ -51,13 +51,13 @@ if (txpinterface === 'admin')
 #jmd_form_toggle h3
 {
     cursor: pointer;
-    margin: 0;
+    font: 14px Georgia, serif;
+    margin: 0.5em 0 0;
 }
 
 #jmd_form_toggle table
 {
     border-collapse: collapse;
-    margin: 0 0 1em;
     width: 100%;
 }
 #jmd_form_toggle td
