@@ -1,7 +1,7 @@
 <?php
 $plugin = array(
     'description' => 'Toggleable admin-forms.',
-    'version' => '0.2',
+    'version' => '0.3',
     'type' => 1,
 );
 if (!defined('txpinterface')) include '../zem_tpl.php';
@@ -10,6 +10,12 @@ if (0) {
 ?>
 
 # --- BEGIN PLUGIN HELP ---
+
+h1. jmd_form_toggle
+
+"Forum thread":http://forum.textpattern.com/viewtopic.php?id=27725, "hg repo":http://www.bitbucket.org/jmdeldin/jmd_form_toggle/
+
+h2. Credits
 
 Thanks to "Steve Dickinson":http://txp-plugins.netcarving.com/ for making this work.
 
